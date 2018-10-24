@@ -1,75 +1,167 @@
-//index.js
-//获取应用实例
-const app = getApp()
-const util = require('../../utils/util.js')
+const App = getApp();
+//按钮打卡页面
+var util = require('../../utils/util.js')
+// var seconds = 10
+// var ing //定时器
 Page({
   data: {
-    motto: 'Hello World',
-    userInfo: {},
-    hasUserInfo: false,
-    canIUse: wx.canIUse('button.open-type.getUserInfo')
+    encrypt: '',
+    wxName: '',
+    avatar: '',
+    btnStr: '打卡',
+    touchBled: true
   },
-  //事件处理函数
-  bindViewTap: function() {
-    wx.navigateTo({
-      url: '../logs/logs'
-    })
-  },
-
-
-  
-  onLoad: function () {
-    if (app.globalData.userInfo) {
+  onLoad: function (options) {
+    this.getUserInfo((info) => {
       this.setData({
-        userInfo: app.globalData.userInfo,
-        hasUserInfo: true
+        encrypt: info.belongsTo._id,
+        wxName: info.wxName,
+        avatar: info.img
       })
-    } else if (this.data.canIUse){
-      // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-      // 所以此处加入 callback 以防止这种情况
-      app.userInfoReadyCallback = res => {
-        this.setData({
-          userInfo: res.userInfo,
-          hasUserInfo: true
-        })
-      }
-    } else {
-      // 在没有 open-type=getUserInfo 版本的兼容处理
-      wx.getUserInfo({
-        success: res => {
-          app.globalData.userInfo = res.userInfo
-          this.setData({
-            userInfo: res.userInfo,
-            hasUserInfo: true
-          })
-        }
-      })
-    }
+    })
   },
-  getUserInfo: function(e) {
-    console.log(e)
-    app.globalData.userInfo = e.detail.userInfo
+  onReady: function () {
+    // 页面渲染完成
+    
+  },
+  onShow: function () {
+    // 页面显示
+    this.startTime()
+    console.log(App.globalData)
+  },
+  onHide: function () {
+    // 页面隐藏
+  },
+  onUnload: function () {
+    // 页面关闭
+  },
+
+  //获取个人信息  来判断是否打过卡
+  getUserInfo: function (cb) {
+    // wx.request({
+    // url: ,
+    // data: {},
+    // method: 'GET',
+    // success: function (res) {
+    //   // success
+    //   console.log(res)
+    //   typeof cb == 'function' && cb(res.data)
+    // }
+    // })
+  },
+
+  //打卡按钮
+
+  toClock: function () {
+    wx.showNavigationBarLoading()
+    // ing = setInterval(() => {
+    //   this.sleepOneMinute()
+    // }, 1000);
+    console.log("2")
+    // this.setData({
+    //   touchBled: false
+    // })
+    // wx.getLocation({
+    //   type: 'wgs84',
+    //   success: (res) => {
+    //     console.log('location', res)
+    //     this.setData({
+    //       touchBled: true
+    //     })
+    //     //this.punch(res.latitude, res.longitude)
+    //   },
+    //   fail: (res) => {
+    //     console.log('location', res)
+    //     wx.hideNavigationBarLoading()
+    //     this.setData({
+    //       info: '打卡功能需要获取您的地理位置信息，请稍后重试'
+    //     })
+    //     wx.getSetting({
+    //       success: (res) => {
+    //         if (res.authSetting['scope.userLocation'] != undefined && res.authSetting['scope.userLocation'] != true) { //非初始化进入该页面,且未授权
+    //           wx.showModal({
+    //             title: '是否授权当前位置',
+    //             content: '需要获取您的地理位置，请确认授权，否则无法获取您所需数据',
+    //             success: function (res) {
+    //               if (res.cancel) {
+    //                 wx.showToast({
+    //                   title: '授权失败',
+    //                   icon: 'success',
+    //                   duration: 1000
+    //                 })
+    //               } else if (res.confirm) {
+    //                 wx.openSetting({
+    //                   success: function (dataAu) {
+    //                     if (dataAu.authSetting["scope.userLocation"] == true) {
+    //                       wx.showToast({
+    //                         title: '授权成功',
+    //                         icon: 'success',
+    //                         duration: 1000
+    //                       })
+    //                     } else {
+    //                       wx.showToast({
+    //                         title: '授权失败',
+    //                         icon: 'success',
+    //                         duration: 1000
+    //                       })
+    //                     }
+    //                   }
+    //                 })
+    //               }
+    //             }
+    //           })
+    //         }
+    //       }
+    //     })
+    //   }
+    // })
+  },
+
+  startTime: function () {
+    var today = new Date();
+    var month = today.getMonth();
+    var day = today.getDate();
+    var week = today.getDay();
+    var h = today.getHours();
+    var m = today.getMinutes();
+    var s = today.getSeconds(); // 在小于10的数字前加一个‘0’
+    month = this.checkTime(month);
+    day = this.checkTime(day);
+    m = this.checkTime(m);
+    s = this.checkTime(s);
     this.setData({
-      userInfo: e.detail.userInfo,
-      hasUserInfo: true
+      hours: h,
+      minutes: m,
+      month: util.translateMonth(month),
+      day: day,
+      week: util.translateWeek(week)
     })
+    // var t = setTimeout(() => {
+    //   this.startTime()
+    // }, 500);
   },
-  //登录按钮处理函数
-  handleLoginBtn() {
-    wx.showToast({
-      title: '登录中',
-      icon: 'loading'
-    })
-    console.log(util)
-    util.disable(1000, 3, (backData) => {
-      if (backData == false)
-        this.setData({
-          btnDis: false
-        })
-      console.log('解除禁用')
-      wx.redirectTo({
-        url: '/pages/logs/logs',
-      })
-    })
+
+  checkTime: function (i) {
+    if (i < 10) {
+      i = "0" + i;
+    }
+    return i;
+  },
+
+  sleepOneMinute: function () {
+    // if (this.data.touchBled == true) {
+    //   // seconds--
+    //   // this.setData({
+    //   //   btnStr: (seconds + ' 秒后可再打卡')
+    //   // })
+    //   // if (seconds == 0) {
+    //   //   this.setData({
+    //   //     btnStr: '打卡',
+    //   //     touchBled: false,
+    //   //   })
+    //   //   // seconds = 10
+    //   //   // clearInterval(ing)
+    //   // }
+    // }
   }
 })
