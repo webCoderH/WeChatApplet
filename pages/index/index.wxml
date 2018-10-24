@@ -1,23 +1,47 @@
-
 <view class="scan" wx:if="{{touchBled}}">
-    <view class="header">
-        <view class="avatar"><image src="{{avatar}}" /></view>
-        <view class="name"><text>{{wxName}}</text></view>
+  <view class="header">
+    <view class="avatar">
+      <image src="{{avatar}}" />
     </view>
-    <view class="time-section">
-        <view class="time">
-            <view class="hourminuts">
-                <text>{{hours}}:{{minutes}}</text>
-            </view>
-            <!-- <view class="seconds">
-                <text>{{seconds}}</text>
-            </view> -->
-        </view>
-        <view class="date">
-            <text>{{month}}月{{day}}日  {{week}}</text>
-        </view>
+    <view class="name">
+      <text>{{wxName}}</text>
     </view>
-    <view class="footer">
-        <button class="to-clock" hover-class="hover-to-clock" open-type='getUserInfo' bindtap="toClock">{{btnStr}}</button>
+  </view>
+  <view class="time-section">
+    <view class="time">
+      <view class="hourminuts">
+        <text>{{hours}}:{{minutes}}</text>
+      </view>
+      <view class="seconds">
+        <text>{{seconds}}</text>
+      </view>
     </view>
+    <view class="date">
+      <text>{{month}}月{{day}}日  {{week}}</text>
+    </view>
+  </view>
+  <view class="footer">
+    <button class="to-clock" hover-class="hover-to-clock" bindtap="toClock">{{btnStr}}</button>
+  </view>
+</view>
+<view class="circleBar" wx:else>
+  <view class="wrap">
+    <view class="top">
+      <canvas class="cir" style=' width:480rpx; height:480rpx;' canvas-id="canvasArc"></canvas>
+      <view class="centerWord_b">{{resultComment}}</view>
+      <view class="centerWord">{{rightItems}}步</view>
+    </view>
+  </view>
+  <view class='item'>
+    <text>当日完成10000步可兑换20积分</text>
+    <button type="primary" size="mini">兑换</button>
+  </view>
+  <view class='item'>
+    <text>当日完成20000步可兑换30积分</text>
+    <button type="primary" size="mini">兑换</button>
+  </view>
+    <view class='item'>
+    <text>当日完成30000步可兑换50积分</text>
+    <button type="primary" size="mini">兑换</button>
+  </view>
 </view>

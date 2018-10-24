@@ -5,7 +5,6 @@ App({
     // var logs = wx.getStorageSync('logs') || []
     // logs.unshift(Date.now())
     // wx.setStorageSync('logs', logs)
-
     // 登录
     wx.login({
       success: res => {
@@ -13,24 +12,28 @@ App({
         console.log(res)
       }
     })
+    var that = this;
     // 获取用户信息
-    wx.getSetting({
-      success: res => {
-        console.log(res)
-        if (res.authSetting['scope.userInfo']) {
-          // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
-          wx.getUserInfo({
-            success: res => {
-              // 可以将 res 发送给后台解码出 unionId
-              this.globalData.userInfo = res.userInfo
-              // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-              // 所以此处加入 callback 以防止这种情况
-              if (this.userInfoReadyCallback) {
-                this.userInfoReadyCallback(res)
-              }
+    wx.getUserInfo({
+      withCredentials: true,
+      success: function (res) {
+        //此处为获取微信信息后的业务方法
+        that.globalData.userInfo = res.userInfo
+      },
+      fail: function () {
+        //获取用户信息失败后。请跳转授权页面
+        wx.showModal({
+          title: '警告',
+          content: '尚未进行授权，请点击确定跳转到授权页面进行授权。',
+          success: function (res) {
+            if (res.confirm) {
+              console.log('用户点击确定')
+              wx.navigateTo({
+                url: '../tologin/tologin',
+              })
             }
-          })
-        }
+          }
+        })
       }
     })
   },

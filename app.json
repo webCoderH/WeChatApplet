@@ -2,12 +2,13 @@
   "pages":[
     "pages/index/index",
     "pages/my/my",
-    "pages/rank/rank"
+    "pages/rank/rank",
+    "pages/tologin/tologin"
   ],
   "window":{
     "backgroundTextStyle":"light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "WeChat",
+    "navigationBarTitleText": "运动打卡",
     "navigationBarTextStyle":"black"
   },
   "tabBar": {
