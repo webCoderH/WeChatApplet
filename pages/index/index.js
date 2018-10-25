@@ -20,6 +20,13 @@ Page({
 
 
   },
+  onShareAppMessage: function () {
+    return {
+      title: '挖得起我',
+      desc: '大沙发上的飞洒的电风扇!',
+      path: '/pages/index/index'
+    }
+  },
   onShow: function() {
     // 页面显示
     var that = this;
