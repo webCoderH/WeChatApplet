@@ -1,0 +1,10 @@
+<template name="rankItem">
+  <view class='base_top item'>
+    <text class='rank'>{{ item.rank }}</text>
+    <view class='head_img'>
+      <image src="{{ item.avatar }}"></image>
+    </view>
+    <text class='user_name'>{{ item.wxName }}</text>
+    <text class='integral'>{{ item.integral }}</text>
+  </view>
+</template>

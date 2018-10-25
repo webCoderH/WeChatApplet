@@ -8,20 +8,18 @@ Page({
     btnStr: '打卡',
     timer: '',
     touchBled: true,
-    resultComment: "本阶段目标10000步"    
+    progress_txt: '当前步数',
+    step_txt: 5000,
+    count: 0, // 设置 计数器 初始为0
+    countTimer: null // 设置 定时器 初始为null
   },
   onLoad: function(options) {
 
   },
   onReady: function() {
     // 页面初始化 options为页面跳转所带来的参数
-    let that = this;
-    // 以下两个是测试数据
-    let totalItems = 10000;
-    let rightItems = 5000;
-    // let completePercent = parseInt((rightItems / totalItems) * 100);
-    // that.getResultComment(completePercent);
-    that.showScoreAnimation(rightItems, totalItems);
+    // let that = this;
+
   },
   onShow: function() {
     // 页面显示
@@ -64,6 +62,14 @@ Page({
     this.setData({
       "touchBled": false
     })
+    // // 以下两个是测试数据
+    let totalItems = 10000;
+    let rightItems = this.data.step_txt;
+    let completePercent = Number(rightItems / totalItems);
+    this.drawProgressbg();
+    console.log(completePercent)
+    this.drawCircle(completePercent * 2)
+    // this.countInterval()
     wx.hideNavigationBarLoading()
 
   },
@@ -97,92 +103,51 @@ Page({
     }
     return i;
   },
+  drawProgressbg: function () {
+    // 使用 wx.createContext 获取绘图上下文 context
+    var ctx = wx.createCanvasContext('canvasProgressbg')
+    ctx.setLineWidth(4);// 设置圆环的宽度
+    ctx.setStrokeStyle('#20183b'); // 设置圆环的颜色
+    ctx.setLineCap('round') // 设置圆环端点的形状
+    ctx.beginPath();//开始一个新的路径
+    ctx.arc(110, 110, 100, 0, 2 * Math.PI, false);
+    //设置一个原点(110,110)，半径为100的圆的路径到当前路径
+    ctx.stroke();//对当前路径进行描边
+    ctx.draw();
+  },
+  drawCircle: function (step) {
+    var context = wx.createCanvasContext('canvasProgress');
+    // 设置渐变
+    var gradient = context.createLinearGradient(200, 100, 100, 200);
+    gradient.addColorStop("0", "#2661DD");
+    gradient.addColorStop("0.5", "#40ED94");
+    gradient.addColorStop("1.0", "#5956CC");
 
-  showScoreAnimation: function(rightItems, totalItems) {
-    /*
-    cxt_arc.arc(x, y, r, sAngle, eAngle, counterclockwise);
-    x	                    Number	  圆的x坐标
-    y	                    Number	  圆的y坐标
-    r	                    Number	  圆的半径
-    sAngle	            Number	  起始弧度，单位弧度（在3点钟方向）
-    eAngle	            Number	  终止弧度
-    counterclockwise	    Boolean	  可选。指定弧度的方向是逆时针还是顺时针。默认是false，即顺时针。
-    */
-    let that = this;
-    let copyRightItems = 0;
-    // that.setData({
-      // timer: setInterval(function() {
-        // copyRightItems = copyRightItems+5;
-        if (rightItems >= totalItems) {
-          console.log(copyRightItems)
-          that.setData({
-            resultComment: "本阶段目标已达成",
-            rightItems: rightItems
-          })
-          // clearInterval(that.data.timer)
-        } else {
-          that.setData({
-            rightItems: rightItems
-          })
-          // 页面渲染完成
-          // 这部分是灰色底层
-          let cxt_arc = wx.createCanvasContext('canvasArc'); //创建并返回绘图上下文context对象。
-          cxt_arc.setLineWidth(8); //绘线的宽度
-          cxt_arc.setStrokeStyle('#d2d2d2'); //绘线的颜色
-          cxt_arc.setLineCap('round'); //线条端点样式
-          cxt_arc.beginPath(); //开始一个新的路径
-          cxt_arc.arc(120, 120, 115, 0, 2 * Math.PI, false); //设置一个原点(53,53)，半径为50的圆的路径到当前路径
-          cxt_arc.stroke(); //对当前路径进行描边
-          //这部分是蓝色部分
-          cxt_arc.setLineWidth(8);
-          cxt_arc.setStrokeStyle('#3ea6ff');
-          cxt_arc.setLineCap('round')
-          cxt_arc.beginPath(); //开始一个新的路径
-          cxt_arc.arc(120, 120, 115, -Math.PI * 1 / 2, 2 * Math.PI * (rightItems / totalItems) - Math.PI * 1 / 2, false);
-          cxt_arc.stroke(); //对当前路径进行描边
-          cxt_arc.draw();
-        }
-      // }, 1)
-    // })
+    context.setLineWidth(10);
+    context.setStrokeStyle(gradient);
+    context.setLineCap('round')
+    context.beginPath();
+    // 参数step 为绘制的圆环周长，从0到2为一周 。 -Math.PI / 2 将起始角设在12点钟位置 ，结束角 通过改变 step 的值确定
+    context.arc(110, 110, 100, -Math.PI / 2, step * Math.PI - Math.PI / 2, false);
+    context.stroke();
+    context.draw()
   },
-  getResultComment: function(completePercent) {
-    let that = this;
-    switch (true) {
-      case completePercent < 60:
-        that.setData({
-          resultComment: "渣渣"
-        })
-        break;
-      case completePercent >= 60 && completePercent <= 69:
-        that.setData({
-          resultComment: "学弱"
-        })
-        break;
-      case completePercent >= 70 && completePercent < 80:
-        that.setData({
-          resultComment: "中等"
-        })
-        break;
-      case completePercent >= 80 && completePercent < 90:
-        that.setData({
-          resultComment: "良好"
-        })
-        break;
-      case completePercent >= 90 && completePercent < 95:
-        that.setData({
-          resultComment: "优秀"
-        })
-        break;
-      case completePercent >= 95 && completePercent < 100:
-        that.setData({
-          resultComment: "学霸"
-        })
-        break;
-      case completePercent >= 100:
-        that.setData({
-          resultComment: "学神"
-        })
-        break;
-    }
-  },
+  // countInterval: function () {
+  //   // 设置倒计时 定时器 每100毫秒执行一次，计数器count+1 ,耗时6秒绘一圈
+  //   this.countTimer = setInterval(() => {
+  //     if (this.data.count <= 60) {
+  //       /* 绘制彩色圆环进度条  
+  //       注意此处 传参 step 取值范围是0到2，
+  //       所以 计数器 最大值 60 对应 2 做处理，计数器count=60的时候step=2
+  //       */
+  //       this.drawCircle(this.data.count / (60 / 2))
+  //       this.data.count++;
+  //     } else {
+  //       this.setData({
+  //         progress_txt: "匹配成功"
+  //       });
+  //       clearInterval(this.countTimer);
+  //     }
+  //   }, 100)
+  // },
 })

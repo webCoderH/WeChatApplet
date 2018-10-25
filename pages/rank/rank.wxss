@@ -1,1 +1,29 @@
-/* pages/rank/rank.wxss */
+.base_top text{
+  display: inline-block;
+  text-align: center;
+  height: 80rpx;
+  line-height: 80rpx;
+}
+.base_top .rank{
+  width: 20%;
+}
+.base_top .head_img{
+  width: 20%;
+}
+.base_top .user_name{
+  width: 35%;
+}
+.base_top .integral{
+  width: 25%;
+}
+.item{
+  display: flex;
+}
+.item .head_img{
+  text-align: center;
+}
+.item .head_img image{
+  border-radius: 50%;
+  width: 81rpx;
+  height: 81rpx;
+}

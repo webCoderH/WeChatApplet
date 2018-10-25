@@ -1,8 +1,8 @@
 {
   "pages":[
+    "pages/rank/rank",
     "pages/index/index",
     "pages/my/my",
-    "pages/rank/rank",
     "pages/tologin/tologin"
   ],
   "window":{

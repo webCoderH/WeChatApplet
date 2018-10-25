@@ -1,2 +1,39 @@
-<!--pages/rank/rank.wxml-->
-<text>pages/rank/rank.wxml</text>
+<import src="rank_list/rank_list.wxml"/>
+<view class="page">
+  <view class="page__bd">
+    <view class="weui-tab">
+      <view class="weui-navbar">
+        <block wx:for="{{tabs}}" wx:key="*this">
+          <view id="{{index}}" class="weui-navbar__item {{activeIndex == index ? 'weui-bar__item_on' : ''}}" bindtap="tabClick">
+            <view class="weui-navbar__title">{{item}}</view>
+          </view>
+        </block>
+        <view class="weui-navbar__slider" style="left: {{sliderLeft}}px; transform: translateX({{sliderOffset}}px); -webkit-transform: translateX({{sliderOffset}}px);"></view>
+      </view>
+      <view class="weui-tab__panel">
+        <view class="weui-tab__content" hidden="{{activeIndex != 0}}">
+          <view class='base_top'>
+            <text class='rank'>排名</text>
+            <text class='head_img'>头像</text>
+            <text class='user_name'>用户名</text>
+            <text class='integral'>积分余额</text>
+          </view>
+          <block wx:for="{{ dList }}" wx:key="{{ item.rank }}">
+            <template is="rankItem" data="{{ item }}"></template>
+          </block>
+        </view>
+        <view class="weui-tab__content" hidden="{{activeIndex != 1}}">
+          <view class='base_top'>
+           <text class='rank'>排名</text>
+            <text class='head_img'>头像</text>
+            <text class='user_name'>用户名</text>
+            <text class='integral'>积分余额</text>
+          </view>
+          <block wx:for="{{ mList }}" wx:key="{{ item.rank }}">
+            <template is="rankItem" data="{{ item }}"></template>
+          </block>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
