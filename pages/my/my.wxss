@@ -1,1 +1,39 @@
-/* pages/my/my.wxss */
+page {
+  background: #fbfbfb;
+}
+.user-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #ed4d30;
+  height: 354rpx;
+  padding: 50rpx 0;
+  box-sizing: border-box;
+}
+.user-info .user-avatural {
+  width: 169rpx;
+  height: 169rpx;
+  border-radius: 50%;
+}
+.user-info .user-name {
+  font-size: 36rpx;
+  color: #fff;
+}
+
+.user-list navigator {
+  padding:25rpx 20rpx;
+  background:#fff;
+  margin-top:6rpx;
+  font-size:30rpx;
+}
+.user-list navigator:nth-child(1) {
+  margin-top: 20rpx;
+}
+.user-list .iconfont::before {
+  font-size: 40rpx;
+  line-height: 80rpx;
+}
+.user-list .triangle::after {
+  right: 20rpx;
+}

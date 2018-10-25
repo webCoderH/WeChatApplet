@@ -32,6 +32,12 @@ Page({
         })
       }
     })
+    wx.getWeRunData({
+      success(res) {
+        const encryptedData = res.encryptedData
+        console.log(res)
+      }
+    })
   },
   onHide: function() {
     // 页面隐藏

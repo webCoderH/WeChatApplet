@@ -1,2 +1,11 @@
-<!--pages/my/my.wxml-->
-<text>pages/my/my.wxml</text>
+<view class="user">
+  <!--user-info-->
+  <view class="user-info">
+    <image class="user-avatural" src="{{ userInfo.avatarUrl }}"></image>
+    <text class="user-name">{{ userInfo.nickName }}</text>
+  </view>
+  <!--user-list-->
+  <view class="user-list">
+    <navigator url="" hover-class="none" class="triangle {{ item.icon }}" wx:for="{{ userList }}" wx:key="unique">  {{ item.title }}</navigator>
+  </view>
+</view>
