@@ -1,6 +1,10 @@
+view{
+  font-family: "Microsoft YaHei"
+}
 .base_top text{
   display: inline-block;
   text-align: center;
+  font-size: 30rpx;
   height: 80rpx;
   line-height: 80rpx;
 }

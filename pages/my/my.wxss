@@ -1,7 +1,7 @@
 page {
   background: #fbfbfb;
 }
-.user-info {
+.user_info {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -11,29 +11,32 @@ page {
   padding: 50rpx 0;
   box-sizing: border-box;
 }
-.user-info .user-avatural {
-  width: 169rpx;
-  height: 169rpx;
+.user_info .user_avatural {
+  width: 140rpx;
+  height: 140rpx;
   border-radius: 50%;
 }
-.user-info .user-name {
+.user_info .user_name {
   font-size: 36rpx;
   color: #fff;
 }
-
-.user-list navigator {
+.user_info .jfye {
+  font-size: 36rpx;
+  color: #fff;
+}
+.user_list navigator {
   padding:25rpx 20rpx;
   background:#fff;
   margin-top:6rpx;
   font-size:30rpx;
 }
-.user-list navigator:nth-child(1) {
+.user_list navigator:nth-child(1) {
   margin-top: 20rpx;
 }
-.user-list .iconfont::before {
+.user_list .iconfont::before {
   font-size: 40rpx;
   line-height: 80rpx;
 }
-.user-list .triangle::after {
+.user_list .triangle::after {
   right: 20rpx;
 }
