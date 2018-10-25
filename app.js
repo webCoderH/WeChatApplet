@@ -25,6 +25,8 @@ App({
         wx.showModal({
           title: '警告',
           content: '尚未进行授权，请点击确定跳转到授权页面进行授权。',
+          showCancel: false,
+          confirmText: "知道了",
           success: function (res) {
             if (res.confirm) {
               console.log('用户点击确定')
